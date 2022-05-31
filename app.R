@@ -88,7 +88,8 @@ app_header <- flexPanel(
   div(
     Text(variant = "xLarge", "| Quakes explorer", style="color: gray;"), 
     style = "margin-bottom: 10px;"),
-  CommandBar(items = header_commandbar_list)
+  CommandBar(items = header_commandbar_list),
+  style = "box-shadow: 0 0 10px #000;"
 )
 
 app_sidebar <- div(
@@ -122,7 +123,6 @@ app_footer <- flexPanel(
   justify_content = 'space-between',
   gap = "20px",
   Text(variant = "medium", "Built with ❤ by Appsilon", block=TRUE),
-  #Text(variant = "medium", nowrap = FALSE, "If you'd like to learn more, reach out to us at hello@appsilon.com"),
   Text(variant = "medium", nowrap = FALSE, "Data source: U.S. Geological Survey"),
   Text(variant = "medium", nowrap = FALSE, "All rights reserved.")
 )
@@ -131,6 +131,9 @@ ui <- gridPage(
   tags$head(tags$link(rel="stylesheet", href = "quakes_style.css")),
   template = "grail-left-sidebar",
   gap = "10px",
+  rows = list(
+    default = "70px 1fr 30px"
+  ),
   
   header = app_header,
   sidebar = app_sidebar,

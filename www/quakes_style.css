@@ -1,9 +1,4 @@
-#grid-page-wrapper {
- grid-template-rows: 70px 1fr 30px;
-}
-#header{
-  box-shadow: 0 0 10px #000;
-}
+
 #sidebar {
   box-sizing: border-box;
   box-shadow: rgba(149, 157, 165, 0.6) 0px 1px 3px;
