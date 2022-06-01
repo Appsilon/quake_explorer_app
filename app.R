@@ -137,7 +137,6 @@ ui <- gridPage(
   
   header = app_header,
   sidebar = app_sidebar,
-  
   content = app_content,
   footer = app_footer
 )
