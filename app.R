@@ -83,12 +83,16 @@ quake_types <- quakes_data |>
 app_header <- flexPanel(
   id = "header",
   align_items = "center",
-  flex = c(0, 1, 0),
-  img(src = "appsilon-logo.png", style = "width: 150px"),
+  flex = c(0, 1, 0, NA),
+  tags$a(
+    href = "https://appsilon.com/",
+    img(src = "appsilon-logo.png", style = "width: 150px")
+  ),
   div(
     Text(variant = "xLarge", "| Quakes explorer", style="color: gray;"), 
     style = "margin-bottom: 10px;"),
   CommandBar(items = header_commandbar_list),
+  tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header-link"),
   style = "box-shadow: 0 0 10px #000;"
 )
 
