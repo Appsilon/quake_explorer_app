@@ -80,20 +80,21 @@ quake_types <- quakes_data |>
   rename(key = type)
 
 # UI components ---------------------------------------------------------
-app_header <- flexPanel(
-  id = "header",
-  align_items = "center",
-  flex = c(0, 1, 0, NA),
-  tags$a(
-    href = "https://appsilon.com/",
-    img(src = "appsilon-logo.png", style = "width: 150px")
+app_header <- div(
+  class = "header",
+  div(
+    class = "header__left",
+    tags$a(
+      href = "https://appsilon.com/",
+      img(src = "appsilon-logo.png", style = "width: 150px")
+    ),
+    Text(variant = "xLarge", "| Quakes explorer", class="header__title")
   ),
   div(
-    Text(variant = "xLarge", "| Quakes explorer", style="color: gray;"), 
-    style = "margin-bottom: 10px;"),
-  CommandBar(items = header_commandbar_list),
-  tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header-link"),
-  style = "box-shadow: 0 0 10px #000;"
+    class = "header__right",
+    CommandBar(items = header_commandbar_list),
+    tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link")
+  )
 )
 
 app_sidebar <- div(
