@@ -1,15 +1,5 @@
-# Packages ----------------------------------------------------------------
-library(shiny)
-library(shiny.fluent)
-library(imola)
-library(shiny)
-library(imola)
-library(stringr)
-library(dplyr)
-library(readr)
-library(leaflet)
-library(glue)
-library(purrr)
+# Rhino / shinyApp entrypoint. Do not edit.
+rhino::app()
 
 # functions -------------------------------------------------------------------
 make_popup <- function(place, time, mag, depth){
