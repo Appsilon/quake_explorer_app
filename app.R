@@ -1,6 +1,10 @@
 # Rhino / shinyApp entrypoint. Do not edit.
 rhino::app()
 
+box::use(
+  app/view/mapQuake
+)
+
 # functions -------------------------------------------------------------------
 make_popup <- function(place, time, mag, depth){
   glue::glue(
@@ -110,7 +114,7 @@ app_sidebar <- div(
 
 app_content <- div(
   id="content",
-  leafletOutput('map', height = "100%")
+  mapQuake$ui(ns('map'))
 )
 
 app_footer <- flexPanel(
@@ -157,28 +161,6 @@ server <- function(input, output, session) {
     
   })
   
-  output$map <- renderLeaflet({
-    leaflet() |>
-      addTiles() |>
-      setView(-27.210814, 30.161823, zoom = 2)
-  })
-  
-  observe({
-    req(quakes_filtered)
-    
-    leafletProxy("map", data = quakes_filtered()) |>
-      clearControls() |>
-      clearMarkers() |>
-      addCircleMarkers(
-        radius = input$map_zoom * 2, popup = ~popup, color = ~map_points_palette(mag),
-        stroke = TRUE, lat = ~latitude, lng = ~longitude) %>%
-      addLegend(
-        "bottomright",
-        title = "Magnitude",
-        pal = map_points_palette,
-        values = c(1, 3, 5, 7)
-      )
-  })
   
   selected_quake <- eventReactive(input$quake_id, {
     quake_index <- which(quakes_filtered()[['id']] == input$quake_id)
@@ -189,16 +171,9 @@ server <- function(input, output, session) {
     )
   })
   
-  observe({
-    leafletProxy('map') |>
-      flyTo(lng = selected_quake()[['lng']], lat = selected_quake()[['lat']], zoom = 6)
-  })
+  mapQuake$server('map', data1 = quakes_filtered, data2 = selected_quake)
   
-  observeEvent(input$zoom_out, {
-    leafletProxy('map') |>
-      flyTo(-27.210814, 30.161823, zoom = 2)
-  })
-  
+    
 }
 
 shinyApp(ui, server)
