@@ -22,8 +22,10 @@ jobs:
 
       - name: Setup system dependencies
         run: >
-          sudo apt-get update && sudo apt-get install --yes
-          libcurl4-openssl-dev
+          sudo add-apt-repository --yes ppa:ubuntugis/ubuntugis-unstable &&
+          sudo apt-get update &&
+          sudo apt-get install --yes
+          libcurl4-openssl-dev libgdal-dev libgeos-dev libproj-dev
 
       - name: Restore renv from cache
         uses: actions/cache@v2
