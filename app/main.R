@@ -29,9 +29,8 @@ box::use(
 sendQuakeId <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
 
 # Data wrangling ----------------------------------------------------------
-quakes_data <- read_csv("data/quakes_may_2022.csv")
-# |>
-#   mutate(popup = make_popup(place, time, mag, depth))
+quakes_data <- read_csv("data/quakes_may_2022.csv")|>
+  mutate(popup = make_popup(place, time, mag, depth))
 
 # R components ------------------------------------------------------------
 
