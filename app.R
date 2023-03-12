@@ -2,7 +2,10 @@
 rhino::app()
 
 box::use(
-  app/view/mapQuake
+  app/view/mapQuake,
+  app/logic/dataManipulation[quake_data_read, 
+                             quake_types_func, quake_filter_func, 
+                             top_quakes_func, selected_quake_func]
 )
 
 # functions -------------------------------------------------------------------
@@ -44,8 +47,7 @@ display_quake <- function(mag, place, time, depth, id) {
 sendQuakeId <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
 
 # Data wrangling ----------------------------------------------------------
-quakes_data <- read_csv("data/quakes_may_2022.csv")|>
-  mutate(popup = make_popup(place, time, mag, depth))
+quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 
 # R components ------------------------------------------------------------
 
@@ -68,10 +70,7 @@ header_commandbar_list <- list(
   )
 )
 
-quake_types <- quakes_data |>
-  distinct(type) |>
-  mutate(text = str_to_title(type)) |>
-  rename(key = type)
+quake_types <- quake_types_func(quakes_data)
 
 # UI components ---------------------------------------------------------
 app_header <- div(
@@ -146,29 +145,18 @@ server <- function(input, output, session) {
     req(input$type)
     req(input$mag)
     
-    quakes_data |>
-      filter(type == input$type, mag >= input$mag)
+    quake_filter_func(quakes_data)
   })
   
   output$top_quakes <- renderUI({
     req(quakes_filtered)
     
-    quakes_filtered() |>
-      arrange(desc(mag)) |>
-      head( input$n_quakes ) |>
-      select(mag, place, time, depth, id) |>
-      pmap(display_quake)
-    
+    top_quakes_func(quakes_filtered)
   })
   
   
   selected_quake <- eventReactive(input$quake_id, {
-    quake_index <- which(quakes_filtered()[['id']] == input$quake_id)
-    
-    list(
-      lat = quakes_filtered()[['latitude']][quake_index],
-      lng = quakes_filtered()[['longitude']][quake_index]
-    )
+    selected_quake_func(quakes_filtered)
   })
   
   mapQuake$server('map', data1 = quakes_filtered, data2 = selected_quake)
