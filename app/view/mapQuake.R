@@ -4,12 +4,16 @@ box::use(
   dplyr[...],
   readr[read_csv],
   shiny[moduleServer, NS, observe, req, observeEvent],
-  app/logic/dataManipulation[quake_data_read,
-                            quake_types_func, quake_filter_func,
-                            top_quakes_func, selected_quake_func],
-  leaflet[renderLeaflet, leaflet, addTiles, setView,
-          leafletProxy, clearControls, clearMarkers, addCircleMarkers,
-          addLegend, flyTo, colorNumeric, leafletOutput]
+  app / logic / dataManipulation[
+    quake_data_read,
+    quake_types_func, quake_filter_func,
+    top_quakes_func, selected_quake_func
+  ],
+  leaflet[
+    renderLeaflet, leaflet, addTiles, setView,
+    leafletProxy, clearControls, clearMarkers, addCircleMarkers,
+    addLegend, flyTo, colorNumeric, leafletOutput
+  ]
 )
 
 #' @export
@@ -43,8 +47,9 @@ server <- function(id, quakes_filtered, selected_quake) {
         clearControls() |>
         clearMarkers() |>
         addCircleMarkers(
-          radius = input$map_zoom * 2, popup = ~popup, color = ~map_points_palette(mag),
-          stroke = TRUE, lat = ~latitude, lng = ~longitude) %>%
+          radius = input$map_zoom * 2, popup = ~popup, color = ~ map_points_palette(mag),
+          stroke = TRUE, lat = ~latitude, lng = ~longitude
+        ) %>%
         addLegend(
           "bottomright",
           title = "Magnitude",
@@ -54,12 +59,12 @@ server <- function(id, quakes_filtered, selected_quake) {
     })
 
     observe({
-      leafletProxy('map') |>
-        flyTo(lng = selected_quake()[['lng']], lat = selected_quake()[['lat']], zoom = 6)
+      leafletProxy("map") |>
+        flyTo(lng = selected_quake()[["lng"]], lat = selected_quake()[["lat"]], zoom = 6)
     })
 
     observeEvent(input$zoom_out, {
-      leafletProxy('map') |>
+      leafletProxy("map") |>
         flyTo(-27.210814, 30.161823, zoom = 2)
     })
   })

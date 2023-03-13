@@ -1,7 +1,7 @@
 box::use(
-    shiny[...],
-    glue[glue],
-    stringr[...]
+  shiny[...],
+  glue[glue],
+  stringr[...]
 )
 
 #' @export

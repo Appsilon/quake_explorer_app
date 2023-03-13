@@ -9,18 +9,20 @@ box::use(
   logger[log_info, log_debug, log_error],
   bslib[bs_theme, font_google],
   leaflet[...],
-  app/logic/dataManipulation[quake_data_read,
-                            quake_types_func, quake_filter_func,
-                            top_quakes_func, selected_quake_func],
+  app / logic / dataManipulation[
+    quake_data_read,
+    quake_types_func, quake_filter_func,
+    top_quakes_func, selected_quake_func
+  ],
 )
 
 # Box import of views
 box::use(
-  app/view/mapQuake
+  app / view / mapQuake
 )
 
 # preprocessing and elements to be used inside UI and Server
-sendQuakeId <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
+send_quake_id <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
 
 # Data wrangling ----------------------------------------------------------
 quakes_data <- quake_data_read("data/quakes_may_2022.csv")
@@ -30,12 +32,12 @@ quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 ## Header command bar
 header_commandbar_list <- list(
   list(
-    key = 'zoom_out',
+    key = "zoom_out",
     text = "Zoom out",
     iconProps = list(iconName = "FullScreen")
   ),
   list(
-    key = 'download',
+    key = "download",
     text = "Download data",
     iconProps = list(iconName = "Download")
   )
@@ -43,9 +45,9 @@ header_commandbar_list <- list(
 
 quake_types <- quake_types_func(quakes_data)
 
-#===================
-#======= UI ========
-#===================
+# ===================
+# ======= UI ========
+# ===================
 
 #' @export
 ui <- function(id) {
@@ -60,7 +62,7 @@ ui <- function(id) {
         href = "https://appsilon.com/",
         img(src = "static/appsilon-logo.png", style = "width: 150px")
       ),
-      Text(variant = "xLarge", "| Quakes explorer", class="header__title")
+      Text(variant = "xLarge", "| Quakes explorer", class = "header__title")
     ),
     div(
       class = "header__right",
@@ -72,9 +74,10 @@ ui <- function(id) {
   app_sidebar <- div(
     id = "sidebar",
     Separator("Filter quakes"),
-    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = 'Minimun magnitude'),
+    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
     Dropdown.shinyInput(
-      ns("type"), value = "earthquake",
+      ns("type"),
+      value = "earthquake",
       options = quake_types, label = "Quake type"
     ),
     Separator("Top quakes"),
@@ -83,36 +86,34 @@ ui <- function(id) {
       basis = c("85%", "10%"),
       wrap = "nowrap",
       align_content = "space-between",
-      SpinButton.shinyInput(inputId = ns('n_quakes'), label = "Top:", value = 5, min = 1, max = 15),
-      IconButton.shinyInput(ns('zoom_out'), iconProps = list("iconName" = "FullScreen"))
+      SpinButton.shinyInput(inputId = ns("n_quakes"), label = "Top:", value = 5, min = 1, max = 15),
+      IconButton.shinyInput(ns("zoom_out"), iconProps = list("iconName" = "FullScreen"))
     ),
-    tags$script(sendQuakeId),
-    uiOutput(ns('top_quakes'))
+    tags$script(send_quake_id),
+    uiOutput(ns("top_quakes"))
   )
 
   app_content <- div(
-    id="content",
-
+    id = "content",
     mapQuake$ui(ns("map"))
   )
 
   app_footer <- flexPanel(
     id = "footer",
-    justify_content = 'space-between',
+    justify_content = "space-between",
     gap = "20px",
-    Text(variant = "medium", "Built with ❤ by Appsilon", block=TRUE),
+    Text(variant = "medium", "Built with ❤ by Appsilon", block = TRUE),
     Text(variant = "medium", nowrap = FALSE, "Data source: U.S. Geological Survey"),
     Text(variant = "medium", nowrap = FALSE, "All rights reserved.")
   )
 
   gridPage(
-    tags$head(tags$link(rel="stylesheet", href = "quakes_style.css")),
+    tags$head(tags$link(rel = "stylesheet", href = "quakes_style.css")),
     template = "grail-left-sidebar",
     gap = "10px",
     rows = list(
       default = "70px 1fr 30px"
     ),
-
     header = app_header,
     sidebar = app_sidebar,
     content = app_content,
@@ -120,9 +121,9 @@ ui <- function(id) {
   )
 }
 
-#===================
-#=== SERVER ========
-#===================
+# ===================
+# === SERVER ========
+# ===================
 
 #' @export
 server <- function(id) {
