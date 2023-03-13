@@ -1,12 +1,15 @@
 # /app/view/mapQuake.R
 
 box::use(
+  dplyr[...],
+  readr[read_csv],
   shiny[moduleServer, NS, observe, req, observeEvent],
-  leaflet[
-    renderLeaflet, leaflet, addTiles, setView,
-    leafletProxy, clearControls, clearMarkers, addCircleMarkers,
-    addLegend, flyTo
-  ]
+  app/logic/dataManipulation[quake_data_read,
+                            quake_types_func, quake_filter_func,
+                            top_quakes_func, selected_quake_func],
+  leaflet[renderLeaflet, leaflet, addTiles, setView,
+          leafletProxy, clearControls, clearMarkers, addCircleMarkers,
+          addLegend, flyTo, colorNumeric, leafletOutput]
 )
 
 #' @export
@@ -17,8 +20,17 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, data1, data2) {
+server <- function(id, quakes_filtered, selected_quake) {
   moduleServer(id, function(input, output, session) {
+
+    # Data wrangling ----------------------------------------------------------
+    quakes_data <- quake_data_read("data/quakes_may_2022.csv")
+
+    map_points_palette <- colorNumeric(
+      palette = "YlGnBu",
+      domain = quakes_data$mag
+    )
+
     output$map <- renderLeaflet({
       leaflet() |>
         addTiles() |>
@@ -29,6 +41,9 @@ server <- function(id, data1, data2) {
       req(data1)
 
       leafletProxy("map", data = data1()) |>
+      req(quakes_filtered)
+
+      leafletProxy("map", data = quakes_filtered()) |>
         clearControls() |>
         clearMarkers() |>
         addCircleMarkers(
@@ -46,6 +61,8 @@ server <- function(id, data1, data2) {
     observe({
       leafletProxy("map") |>
         flyTo(lng = data2()[["lng"]], lat = data2()[["lat"]], zoom = 6)
+      leafletProxy('map') |>
+        flyTo(lng = selected_quake()[['lng']], lat = selected_quake()[['lat']], zoom = 6)
     })
 
     observeEvent(input$zoom_out, {
