@@ -136,13 +136,13 @@ server <- function(id) {
     })
 
     selected_quake <- eventReactive(input$quake_id, {
-      selected_quake_func(quakes_filtered, input$quake_id)
+      selected_quake_func(quakes_filtered(), input$quake_id)
     })
 
     output$top_quakes <- renderUI({
       req(quakes_filtered)
 
-      top_quakes_func(quakes_filtered, input$n_quakes)
+      top_quakes_func(quakes_filtered(), input$n_quakes)
     })
 
     mapQuake$server("map", quakes_filtered, selected_quake)
