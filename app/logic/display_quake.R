@@ -1,9 +1,10 @@
 box::use(
     shiny[...],
     glue[glue],
-    stringr[...]
+    stringr[str_to_title]
 )
 
+#' @export
 display_quake <- function(mag, place, time, depth, id) {
   div(
     style = "display: flex;",
@@ -15,7 +16,7 @@ display_quake <- function(mag, place, time, depth, id) {
       h3(str_to_title(place)),
       div(
         class = "quake-metadata",
-        p(time), 
+        p(time),
         p(paste(mag, "km"))
       )
     )

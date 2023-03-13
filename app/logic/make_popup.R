@@ -4,7 +4,8 @@ box::use(
     stringr[...]
 )
 
-make_popup <- function(place, time, mag, depth){
+#' @export
+make_popup <- function(place, time, mag, depth) {
   glue::glue(
     "
     <style>
