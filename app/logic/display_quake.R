@@ -1,6 +1,7 @@
 box::use(
     shiny[...],
-    glue[glue]
+    glue[glue],
+    stringr[...]
 )
 
 display_quake <- function(mag, place, time, depth, id) {

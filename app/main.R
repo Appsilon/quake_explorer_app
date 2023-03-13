@@ -99,7 +99,7 @@ app_sidebar <- div(
 
 app_content <- div(
   id="content",
-  mapQuake$ui(ns('map'))
+  leafletOutput('map', height = "100%")
 )
 
 app_footer <- flexPanel(

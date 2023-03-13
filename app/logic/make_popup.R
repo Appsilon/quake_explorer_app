@@ -1,6 +1,7 @@
 box::use(
     shiny[...],
-    glue[glue]
+    glue[glue],
+    stringr[...]
 )
 
 make_popup <- function(place, time, mag, depth){
