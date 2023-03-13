@@ -8,9 +8,10 @@ box::use(
   readr[read_csv],
   logger[log_info, log_debug, log_error],
   bslib[bs_theme, font_google],
-  purrr[...],
-  utils[...],
-  leaflet[...]
+  leaflet[...],
+  app/logic/dataManipulation[quake_data_read,
+                            quake_types_func, quake_filter_func,
+                            top_quakes_func, selected_quake_func],
 )
 
 # Box import of views
@@ -18,18 +19,11 @@ box::use(
   app/view/mapQuake
 )
 
-# Box import of logic
-box::use(
-  app/logic/make_popup[make_popup],
-  app/logic/display_quake[display_quake]
-)
-
 # preprocessing and elements to be used inside UI and Server
 sendQuakeId <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
 
 # Data wrangling ----------------------------------------------------------
-quakes_data <- read_csv("data/quakes_may_2022.csv")|>
-  mutate(popup = make_popup(place, time, mag, depth))
+quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 
 # R components ------------------------------------------------------------
 
@@ -47,10 +41,7 @@ header_commandbar_list <- list(
   )
 )
 
-quake_types <- quakes_data |>
-  distinct(type) |>
-  mutate(text = str_to_title(type)) |>
-  rename(key = type)
+quake_types <- quake_types_func(quakes_data)
 
 #===================
 #======= UI ========
@@ -67,7 +58,7 @@ ui <- function(id) {
       class = "header__left",
       tags$a(
         href = "https://appsilon.com/",
-        img(src = "appsilon-logo.png", style = "width: 150px")
+        img(src = "static/appsilon-logo.png", style = "width: 150px")
       ),
       Text(variant = "xLarge", "| Quakes explorer", class="header__title")
     ),
@@ -140,30 +131,19 @@ server <- function(id) {
       req(input$type)
       req(input$mag)
 
-      quakes_data |>
-        filter(type == input$type, mag >= input$mag)
+      quake_filter_func(quakes_data, input$type, input$mag)
+    })
+
+    selected_quake <- eventReactive(input$quake_id, {
+      selected_quake_func(quakes_filtered, input$quake_id)
     })
 
     output$top_quakes <- renderUI({
       req(quakes_filtered)
 
-      quakes_filtered() |>
-        arrange(desc(mag)) |>
-        head( input$n_quakes ) |>
-        select(mag, place, time, depth, id) |>
-        pmap(display_quake)
-
+      top_quakes_func(quakes_filtered, input$n_quakes)
     })
 
-    selected_quake <- eventReactive(input$quake_id, {
-      quake_index <- which(quakes_filtered()[['id']] == input$quake_id)
-
-      list(
-        lat = quakes_filtered()[['latitude']][quake_index],
-        lng = quakes_filtered()[['longitude']][quake_index]
-      )
-    })
-
-    mapQuake$server("map", data1 = quakes_filtered, data2 = selected_quake)
+    mapQuake$server("map", quakes_filtered, selected_quake)
   })
 }
