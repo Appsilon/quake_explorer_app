@@ -41,10 +41,7 @@ server <- function(id, quakes_filtered, selected_quake) {
     })
 
     observe({
-      req(data1)
-
-      leafletProxy("map", data = data1()) |>
-        req(quakes_filtered)
+      req(quakes_filtered)
 
       leafletProxy("map", data = quakes_filtered()) |>
         clearControls() |>
@@ -62,8 +59,6 @@ server <- function(id, quakes_filtered, selected_quake) {
     })
 
     observe({
-      leafletProxy("map") |>
-        flyTo(lng = data2()[["lng"]], lat = data2()[["lat"]], zoom = 6)
       leafletProxy("map") |>
         flyTo(lng = selected_quake()[["lng"]], lat = selected_quake()[["lat"]], zoom = 6)
     })
