@@ -125,7 +125,7 @@ ui <- function(id) {
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     quakes_filtered <- reactive({
       req(input$type)
       req(input$mag)
