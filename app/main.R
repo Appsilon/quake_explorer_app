@@ -125,7 +125,7 @@ server <- function(id) {
     type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
 
     ns <- session$ns
-    
+
     quakes_filtered <- reactive({
       req(type())
       req(input$mag)
