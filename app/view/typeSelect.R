@@ -23,8 +23,8 @@ typeSelectServer <- function(id, data, min_mag) {
     id,
     function(input, output, session) {
       ns <- session$ns
-      
-      #Update selectInput by only allowing choices contained in the dataset
+
+      # Update selectInput by only allowing choices contained in the dataset
       output$typeSelect <- renderUI({
         req(min_mag())
         contained_choices <- data |>
@@ -36,7 +36,7 @@ typeSelectServer <- function(id, data, min_mag) {
           options = contained_choices, label = "Quake type"
         )
       })
-      
+
       reactive(input$type)
     }
   )

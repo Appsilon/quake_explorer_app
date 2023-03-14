@@ -125,16 +125,16 @@ ui <- function(id) {
 #' @export
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
-    #Update selectInput by only allowing choices contained in the dataset
+    # Update selectInput by only allowing choices contained in the dataset
     type <- typeSelect$typeSelectServer("typeSelect", quakes_data, reactive(input$mag))
-    
+
     quakes_filtered <- reactive({
       req(type())
       req(input$mag)
 
       quake_filter_func(quakes_data, type(), input$mag)
     })
-    
+
     selected_quake <- eventReactive(input$quake_id, {
       selected_quake_func(quakes_filtered, input$quake_id)
     })
