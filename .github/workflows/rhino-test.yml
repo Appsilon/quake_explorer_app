@@ -72,11 +72,11 @@ jobs:
         shell: Rscript {0}
         run: rhino::build_sass()
 
-      # - name: Run R unit tests
-      #   if: always()
-      #   shell: Rscript {0}
-      #   run: rhino::test_r()
-
+      - name: Run R unit tests
+        if: always()
+        shell: Rscript {0}
+        run: rhino::test_r()
+      
       # - name: Run Cypress end-to-end tests
       #   if: always()
       #   uses: cypress-io/github-action@v2
