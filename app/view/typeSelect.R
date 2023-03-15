@@ -23,20 +23,24 @@ server <- function(id, data, min_mag) {
     id,
     function(input, output, session) {
       ns <- session$ns
+      
+      filtered_types <- reactive({
+        req(min_mag())
+        options <- data |>
+          filter(mag >= min_mag()) |>
+          quake_types_func()
+      })
 
       # Update selectInput by only allowing choices contained in the dataset
       output$typeSelect <- renderUI({
-        req(min_mag())
-        contained_choices <- data |>
-          filter(mag >= min_mag()) |>
-          quake_types_func()
         Dropdown.shinyInput(
           ns("type"),
           value = "earthquake",
-          options = contained_choices, label = "Quake type"
+          options = filtered_types(), label = "Quake type"
         )
       })
 
+      #return the rendered input's value
       reactive(input$type)
     }
   )
