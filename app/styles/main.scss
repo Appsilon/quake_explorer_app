@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500;600;700&display=swap');
+
 .header {
   display: flex;
   align-items: center;
@@ -96,4 +98,77 @@
 #footer {
   padding-left: 5px;
   text-align: center;
+}
+
+#app_header {
+  padding: 12px 0;
+  justify-content: center;
+  align-items: center;
+}
+
+.app_header_vertical_separator {
+  background: #c1c7cd;
+  margin: 10px 0;
+  height: calc(100% - 20px);
+}
+
+.app_header_title {
+  user-select: none;
+  color: #4d5358;
+  font-family: 'Maven Pro', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.btn-cta {
+  color: white !important;
+  font-size: 14px;
+  height: 40px;
+  padding: 8px 16px 8px 16px;
+  justify-content: center;
+}
+
+.cta-icon {
+  background: transparent !important;
+  border: none;
+  color: #0099f9 !important;
+}
+
+@media (max-width: 1024px) {
+  .app_header_vertical_separator {
+    background: #c1c7cd;
+    margin: 10px 0;
+    height: 1px;
+  }
+
+  .app_header.mobile-collapsed {
+    padding: 12px 24px 12px 0;
+  }
+
+  .app_header_title {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 24px;
+    color: #040a3c;
+  }
+
+  #app_header.mobile-expanded .mobile-toggled,
+  #app_header.mobile-expanded .header_collapse {
+    display: flex !important;
+  }
+
+  #app_header.mobile-expanded .header_expand {
+    display: none !important;
+  }
+
+  #app_header.mobile-collapsed .mobile-toggled,
+  #app_header.mobile-collapsed .header_collapse {
+    display: none !important;
+  }
+
+  #app_header.mobile-collapsed .header_expand {
+    display: flex !important;
+  }
 }
