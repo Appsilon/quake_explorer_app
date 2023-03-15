@@ -76,7 +76,7 @@ ui <- function(id) {
     id = "sidebar",
     Separator("Filter quakes"),
     Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
-    typeSelect$typeSelectUI(ns("typeSelect")),
+    typeSelect$ui(ns("typeSelect")),
     Separator("Top quakes"),
     flexPanel(
       id = "top_quakes_inputs",
@@ -126,7 +126,7 @@ ui <- function(id) {
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
     # Update selectInput by only allowing choices contained in the dataset
-    type <- typeSelect$typeSelectServer("typeSelect", quakes_data, reactive(input$mag))
+    type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
 
     quakes_filtered <- reactive({
       req(type())

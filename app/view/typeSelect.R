@@ -10,7 +10,7 @@ box::use(
 
 
 #' @export
-typeSelectUI <- function(id) {
+ui <- function(id) {
   ns <- NS(id)
   tagList(
     uiOutput(ns("typeSelect"))
@@ -18,7 +18,7 @@ typeSelectUI <- function(id) {
 }
 
 #' @export
-typeSelectServer <- function(id, data, min_mag) {
+server <- function(id, data, min_mag) {
   moduleServer(
     id,
     function(input, output, session) {
