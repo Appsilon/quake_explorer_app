@@ -140,7 +140,7 @@ server <- function(id) {
     output$top_quakes <- renderUI({
       req(quakes_filtered)
 
-      top_quakes_func(quakes_filtered(), input$n_quakes)
+      top_quakes_func(quakes_filtered(), input$n_quakes, ns)
     })
 
     mapQuake$server("map", quakes_filtered, selected_quake)
