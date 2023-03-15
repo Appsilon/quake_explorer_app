@@ -127,7 +127,7 @@ server <- function(id) {
     ns <- session$ns
 
     # Update selectInput by only allowing choices contained in the dataset
-    type <- typeSelect$typeSelectServer("typeSelect", quakes_data, reactive(input$mag))
+    type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
 
     quakes_filtered <- reactive({
       req(type())
