@@ -24,16 +24,13 @@ ui <- function(id) {
 }
 
 #' @export
-server <- function(id, quakes_filtered, selected_quake) {
+server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
+  map_points_palette <- colorNumeric(
+    palette = "YlGnBu",
+    domain = quakes_data$mag
+  )
+
   moduleServer(id, function(input, output, session) {
-    # Data wrangling ----------------------------------------------------------
-    quakes_data <- quake_data_read("data/quakes_may_2022.csv")
-
-    map_points_palette <- colorNumeric(
-      palette = "YlGnBu",
-      domain = quakes_data$mag
-    )
-
     output$map <- renderLeaflet({
       leaflet() |>
         addTiles() |>
@@ -41,7 +38,7 @@ server <- function(id, quakes_filtered, selected_quake) {
     })
 
     observe({
-      req(quakes_filtered)
+      req(quakes_filtered())
 
       leafletProxy("map", data = quakes_filtered()) |>
         clearControls() |>
@@ -63,7 +60,7 @@ server <- function(id, quakes_filtered, selected_quake) {
         flyTo(lng = selected_quake()[["lng"]], lat = selected_quake()[["lat"]], zoom = 6)
     })
 
-    observeEvent(input$zoom_out, {
+    observeEvent(zoom_out(), {
       leafletProxy("map") |>
         flyTo(-27.210814, 30.161823, zoom = 2)
     })

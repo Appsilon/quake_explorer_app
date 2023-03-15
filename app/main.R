@@ -26,20 +26,6 @@ quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 
 # R components ------------------------------------------------------------
 
-## Header command bar
-header_commandbar_list <- list(
-  list(
-    key = "zoom_out",
-    text = "Zoom out",
-    iconProps = list(iconName = "FullScreen")
-  ),
-  list(
-    key = "download",
-    text = "Download data",
-    iconProps = list(iconName = "Download")
-  )
-)
-
 quake_types <- quake_types_func(quakes_data)
 
 # ===================
@@ -63,8 +49,9 @@ ui <- function(id) {
     ),
     div(
       class = "header__right",
-      CommandBar(items = header_commandbar_list),
-      tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link")
+      CommandBarButton.shinyInput(ns("download"), iconProps = list(iconName = "Download"), text = "Download"),
+      CommandBarButton.shinyInput(ns("zoom_out"), iconProps = list(iconName = "FullScreen"), text = "Zoom out"),
+      tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link"),
     )
   )
 
@@ -143,6 +130,6 @@ server <- function(id) {
       top_quakes_func(quakes_filtered(), input$n_quakes, ns)
     })
 
-    mapQuake$server("map", quakes_filtered, selected_quake)
+    mapQuake$server("map", quakes_data, quakes_filtered, selected_quake, reactive(input$zoom_out))
   })
 }
