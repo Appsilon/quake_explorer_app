@@ -49,8 +49,14 @@ ui <- function(id) {
     ),
     div(
       class = "header__right",
-      CommandBarButton.shinyInput(ns("download"), iconProps = list(iconName = "Download"), text = "Download"),
-      CommandBarButton.shinyInput(ns("zoom_out"), iconProps = list(iconName = "FullScreen"), text = "Zoom out"),
+      CommandBarButton.shinyInput(
+        ns("download"),
+        iconProps = list(iconName = "Download"), text = "Download"
+      ),
+      CommandBarButton.shinyInput(
+        ns("zoom_out"),
+        iconProps = list(iconName = "FullScreen"), text = "Zoom out"
+      ),
       tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link"),
     )
   )
