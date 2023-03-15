@@ -17,7 +17,7 @@ test_that("variables have a value", {
   depth <- 10
   id <- "quake-123"
   # call the function with the input values
-  output <- display_quake(mag, place, time, depth, id)
+  output <- display_quake(mag, place, time, depth, id, "")
   # styles might change in future, so lets check if the values are called correctly or not
   # check that the input variables are not null
   expect_true(!is.null(mag))
