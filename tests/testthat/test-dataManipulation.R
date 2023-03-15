@@ -1,6 +1,7 @@
 box::use(
   testthat[...],
-  tibble[...]
+  tibble[...],
+  shiny[NS]
 )
 
 box::use(
@@ -13,7 +14,7 @@ df <- quake_data_read(path_csv)
 
 
 
-test_that("quake_data_read() reads csv files, 
+test_that("quake_data_read() reads csv files,
           returns a tibble and generates popup", {
   # call the function with the input values
   func_result <- quake_data_read(path_csv)
@@ -51,7 +52,7 @@ test_that("quake_filter_func() filters correctly", {
 test_that("top_quakes_func() generates HTML", {
   quakes_filtered <- quake_filter_func(df, "earthquake", 1)
   # call the function with the input values
-  func_result <- top_quakes_func(quakes_filtered, 2)
+  func_result <- top_quakes_func(quakes_filtered, 2, NS("app"))
 
   expect_true(!is.null(quakes_filtered))
   expect_true(!is.null(func_result))
