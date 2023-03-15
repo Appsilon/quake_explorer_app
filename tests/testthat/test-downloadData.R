@@ -4,12 +4,13 @@ box::use(
 )
 box::use(
   app / view / downloadData,
-  app / logic / dataManipulation[quake_data_read]
+  app / logic / dataManipulation[quake_data_read, quake_filter_func]
 )
 
-df <- reactiveVal(quake_data_read("test-data.csv") |> head())
 
 test_that("downloadData does not return additional columns", {
+  df <- reactiveVal(quake_data_read("test-data.csv") |> quake_filter_func("earthquake", 4))
+  
   testServer(app = downloadData$server, args = list(data = df), expr = {
     download_data <- read.csv(output$downloadData)
     expect_equal(
