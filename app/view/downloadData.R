@@ -3,7 +3,7 @@ box::use(
   shinyjs[useShinyjs, runjs],
   shiny.fluent[CommandBarButton.shinyInput],
   utils[write.csv],
-  dplyr[select]
+  dplyr[select, any_of]
 )
 
 #' @export
@@ -39,6 +39,7 @@ server <- function(id, data) {
         },
         content = function(file) {
           data() |>
+            select(-any_of("popup")) |>
             write.csv(file, row.names = FALSE)
         }
       )
