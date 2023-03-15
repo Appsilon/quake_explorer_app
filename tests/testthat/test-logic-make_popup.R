@@ -15,10 +15,8 @@ test_that("variables have a value", {
   time <- "2023-03-14 17:05:00"
   mag <- 5.0
   depth <- 10
-  
   # call the function with the input values
   output <- make_popup(place, time, mag, depth)
-  
   # styles might change in future, so lets check if the values are called correctly or not
   # check that the input variables are not null
   expect_true(!is.null(place))
@@ -26,5 +24,4 @@ test_that("variables have a value", {
   expect_true(!is.null(mag))
   expect_true(!is.null(depth))
 })
-
 # check with rhino::test_r()

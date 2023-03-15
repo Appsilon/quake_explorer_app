@@ -16,10 +16,8 @@ test_that("variables have a value", {
   time <- "2023-03-14 14:36:00"
   depth <- 10
   id <- "quake-123"
-  
   # call the function with the input values
   output <- display_quake(mag, place, time, depth, id)
-  
   # styles might change in future, so lets check if the values are called correctly or not
   # check that the input variables are not null
   expect_true(!is.null(mag))
@@ -28,5 +26,4 @@ test_that("variables have a value", {
   expect_true(!is.null(depth))
   expect_true(!is.null(id))
 })
-
 # check with rhino::test_r()
