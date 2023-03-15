@@ -13,9 +13,7 @@ box::use(
     quake_data_read,
     quake_types_func, quake_filter_func,
     top_quakes_func, selected_quake_func
-  ],
-  utils[write.csv],
-  shinyjs[runjs, useShinyjs]
+  ]
 )
 
 # Box import of views
