@@ -21,9 +21,6 @@ box::use(
   app / view / mapQuake
 )
 
-# preprocessing and elements to be used inside UI and Server
-send_quake_id <- "function sentQuakeId(element_id){Shiny.setInputValue('quake_id', element_id)}"
-
 # Data wrangling ----------------------------------------------------------
 quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 
@@ -89,7 +86,6 @@ ui <- function(id) {
       SpinButton.shinyInput(inputId = ns("n_quakes"), label = "Top:", value = 5, min = 1, max = 15),
       IconButton.shinyInput(ns("zoom_out"), iconProps = list("iconName" = "FullScreen"))
     ),
-    tags$script(send_quake_id),
     uiOutput(ns("top_quakes"))
   )
 
@@ -128,6 +124,8 @@ ui <- function(id) {
 #' @export
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
+    ns <- session$ns
+
     quakes_filtered <- reactive({
       req(input$type)
       req(input$mag)
@@ -142,7 +140,7 @@ server <- function(id) {
     output$top_quakes <- renderUI({
       req(quakes_filtered)
 
-      top_quakes_func(quakes_filtered, input$n_quakes)
+      top_quakes_func(quakes_filtered, input$n_quakes, ns)
     })
 
     mapQuake$server("map", quakes_filtered, selected_quake)

@@ -1,4 +1,3 @@
-
 box::use(
   readr[read_csv],
   dplyr[distinct, mutate, rename, filter, arrange, select],
@@ -30,11 +29,12 @@ quake_filter_func <- function(data, type, mag) {
 }
 
 #' @export
-top_quakes_func <- function(data, n_quakes) {
+top_quakes_func <- function(data, n_quakes, ns) {
   data() |>
     arrange(desc(mag)) |>
     head(n_quakes) |>
     select(mag, place, time, depth, id) |>
+    mutate(ns = ns(character())) |>
     pmap(display_quake)
 }
 
