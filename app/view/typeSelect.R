@@ -23,7 +23,7 @@ server <- function(id, data, min_mag) {
     id,
     function(input, output, session) {
       ns <- session$ns
-      
+
       filtered_types <- reactive({
         req(min_mag())
         options <- data |>
@@ -40,7 +40,7 @@ server <- function(id, data, min_mag) {
         )
       })
 
-      #return the rendered input's value
+      # return the rendered input's value
       reactive(input$type)
     }
   )
