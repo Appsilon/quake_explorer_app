@@ -28,12 +28,14 @@ server <- function(id, data) {
     id,
     function(input, output, session) {
       ns <- session$ns
-      #click the *actual* download button when the CommandBarButton is clicked
-      observeEvent(input$download, {runjs(paste0("$('#",ns("downloadData"),"')[0].click();"))})
-      
+      # click the *actual* download button when the CommandBarButton is clicked
+      observeEvent(input$download, {
+        runjs(paste0("$('#", ns("downloadData"), "')[0].click();"))
+      })
+
       output$downloadData <- downloadHandler(
         filename = function() {
-          paste("quake_data-", Sys.Date(), ".csv", sep="")
+          "quake_explorer_data.csv"
         },
         content = function(file) {
           data() |>

@@ -38,7 +38,7 @@ quake_types <- quake_types_func(quakes_data)
 #' @export
 ui <- function(id) {
   ns <- NS(id)
-  
+
   # UI components ---------------------------------------------------------
   app_header <- div(
     class = "header",
@@ -60,7 +60,7 @@ ui <- function(id) {
       tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link"),
     )
   )
-  
+
   app_sidebar <- div(
     id = "sidebar",
     Separator("Filter quakes"),
@@ -81,12 +81,12 @@ ui <- function(id) {
     ),
     uiOutput(ns("top_quakes"))
   )
-  
+
   app_content <- div(
     id = "content",
     mapQuake$ui(ns("map"))
   )
-  
+
   app_footer <- flexPanel(
     id = "footer",
     justify_content = "space-between",
@@ -95,7 +95,7 @@ ui <- function(id) {
     Text(variant = "medium", nowrap = FALSE, "Data source: U.S. Geological Survey"),
     Text(variant = "medium", nowrap = FALSE, "All rights reserved.")
   )
-  
+
   gridPage(
     tags$head(tags$link(rel = "stylesheet", href = "quakes_style.css")),
     template = "grail-left-sidebar",
@@ -118,28 +118,26 @@ ui <- function(id) {
 server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
-    
+
     quakes_filtered <- reactive({
       req(input$type)
       req(input$mag)
-      
+
       quake_filter_func(quakes_data, input$type, input$mag)
     })
-    
+
     downloadData$server("download", quakes_filtered)
-    
+
     selected_quake <- eventReactive(input$quake_id, {
       selected_quake_func(quakes_filtered(), input$quake_id)
     })
-    
+
     output$top_quakes <- renderUI({
       req(quakes_filtered)
-      
+
       top_quakes_func(quakes_filtered(), input$n_quakes, ns)
     })
-    
+
     mapQuake$server("map", quakes_data, quakes_filtered, selected_quake, reactive(input$zoom_out))
-    
-    
   })
 }
