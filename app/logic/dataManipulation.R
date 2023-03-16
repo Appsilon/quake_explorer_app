@@ -10,7 +10,8 @@ box::use(
 )
 
 #' @export
-get_data <- function(url, file_path) {
+get_data <- function(file_path) {
+  url <- "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv"
   temp_file_path <- "data/temp_file.csv"
   # Check if the URL is valid and returns a download
   if (url.exists(url)) {
@@ -52,9 +53,14 @@ get_data <- function(url, file_path) {
 }
 
 #' @export
+quake_data_read_realtime <- function(file) {
+  get_data(file) |>
+    mutate(popup = make_popup(place, time, mag, depth))
+}
+
+#' @export
 quake_data_read <- function(file) {
-  get_data("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv",
-                              "data/quakes_last30Days.csv") |>
+  read_csv(file) |>
     mutate(popup = make_popup(place, time, mag, depth))
 }
 
