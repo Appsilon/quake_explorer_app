@@ -28,7 +28,8 @@ test_that("quake_data_read() reads csv files,
 test_that("quake_types_func() generates correct key text combinations", {
   expected_result <- tibble::tibble(
     key = c("earthquake", "explosion", "quarry blast", "ice quake"),
-          text = c("Earthquake", "Explosion", "Quarry Blast", "Ice Quake"))
+    text = c("Earthquake", "Explosion", "Quarry Blast", "Ice Quake")
+  )
   # call the function with the input values
   func_result <- quake_types_func(df)
   expect_true(!is.null(df))
@@ -57,7 +58,6 @@ test_that("top_quakes_func() generates HTML", {
   expect_true(!is.null(quakes_filtered))
   expect_true(!is.null(func_result))
   expect_true(!is.null(func_result))
-
 })
 
 

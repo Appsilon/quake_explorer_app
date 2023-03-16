@@ -18,7 +18,8 @@ box::use(
 
 # Box import of views
 box::use(
-  app / view / mapQuake
+  app / view / mapQuake,
+  app / view / typeSelect
 )
 
 # Data wrangling ----------------------------------------------------------
@@ -72,11 +73,7 @@ ui <- function(id) {
     id = "sidebar",
     Separator("Filter quakes"),
     Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
-    Dropdown.shinyInput(
-      ns("type"),
-      value = "earthquake",
-      options = quake_types, label = "Quake type"
-    ),
+    typeSelect$ui(ns("typeSelect")),
     Separator("Top quakes"),
     flexPanel(
       id = "top_quakes_inputs",
@@ -126,11 +123,13 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
+
     quakes_filtered <- reactive({
-      req(input$type)
+      req(type())
       req(input$mag)
 
-      quake_filter_func(quakes_data, input$type, input$mag)
+      quake_filter_func(quakes_data, type(), input$mag)
     })
 
     selected_quake <- eventReactive(input$quake_id, {
