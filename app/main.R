@@ -51,19 +51,6 @@ quake_types <- quake_types_func(quakes_data)
 ui <- function(id) {
   ns <- NS(id)
   # UI components ---------------------------------------------------------
-  ## Header command bar
-  header_commandbar_list <- list(
-    list(
-      key = "zoom_out",
-      text = "Zoom out",
-      iconProps = list(iconName = "FullScreen")
-    ),
-    list(
-      key = "download",
-      text = "Download data",
-      iconProps = list(iconName = "Download")
-    )
-  )
 
   app_header <- gridPanel(
     id = "app_header",
