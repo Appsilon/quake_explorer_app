@@ -161,7 +161,7 @@ ui <- function(id) {
     template = "grail-left-sidebar",
     gap = "10px",
     rows = list(
-      default = "70px 1fr 30px"
+      default = "auto 1fr 30px"
     ),
     header = app_header,
     sidebar = app_sidebar,
