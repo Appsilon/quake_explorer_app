@@ -48,7 +48,7 @@ server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
         clearControls() |>
         clearMarkers() |>
         addCircleMarkers(
-          radius = ~ 1.5 ** mag, popup = ~popup, color = ~ map_points_palette(mag),
+          radius = ~ 1.425 ** mag, popup = ~popup, color = ~ map_points_palette(mag),
           stroke = TRUE, lat = ~latitude, lng = ~longitude
         ) %>%
         addLegend(
