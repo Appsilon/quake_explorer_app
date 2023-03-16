@@ -5,7 +5,7 @@ box::use(
 )
 
 box::use(
-  app / logic / magnitude_to_tnt
+  app / logic / magnitude_to_tnt[magnitude_to_tnt]
 )
 
 #' @export
@@ -21,7 +21,7 @@ make_popup <- function(place, time, mag, mag_type, depth) {
       <p><b>Time: </b> { time } </p>
       <p><b>Magnitude: </b> { mag } { mag_type }</p>
       <p><b>Depth: </b> { depth } Km </p>
-      <p><b>TNT Equivalent: </b> ~ {round(magnitude_to_tnt$magnitude_to_tnt(mag))} tons</p>
+      <p><b>TNT Equivalent: </b> ~ {magnitude_to_tnt(mag)} tons</p>
     </div>
     "
   )
