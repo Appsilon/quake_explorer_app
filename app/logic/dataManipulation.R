@@ -10,17 +10,14 @@ box::use(
 )
 
 #' @export
-getData <- function(url, file_path) {
+get_data <- function(url, file_path) {
   temp_file_path <- "data/temp_file.csv"
   # Check if the URL is valid and returns a download
   if (url.exists(url)) {
-    
     # Download the file from the URL
     download.file(url, temp_file_path, mode = "wb")
-    
     # Check if the downloaded file is not empty
     if (file.info(temp_file_path)$size > 0) {
-      
       # Check if the downloaded file is different from the existing file
       if (file.exists(file_path)) {
         if (!identical(read.csv(file_path), read.csv(temp_file_path))) {
@@ -31,24 +28,18 @@ getData <- function(url, file_path) {
           file.remove(temp_file_path)
           #return the latest data
           return(read.csv(file_path))
-        } 
-        
-        else {
-          message("Downloaded file is the same as existing file.")
-          return(read.csv(file_path))
-          message(temp_file_path)
+        }else {
+         message("Downloaded file is the same as existing file.")
+         return(read.csv(file_path))
+         message(temp_file_path)
         }
-      } 
-      
-      else {
+      }else {
         message("No old file present in directory. New File downloaded successfully.")
         file.rename(temp_file_path, file_path)
         #return latest data
         return(read.csv(file_path))
       }
-    }
-    
-    else {
+    }else {
       message("Downloaded file is empty.")
       #no overwrite needed here
       return(read.csv(file_path))
@@ -62,7 +53,7 @@ getData <- function(url, file_path) {
 
 #' @export
 quake_data_read <- function(file) {
-  getData("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv",
+  get_data("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.csv",
                               "data/quakes_last30Days.csv") |>
     mutate(popup = make_popup(place, time, mag, depth))
 }
