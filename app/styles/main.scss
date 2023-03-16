@@ -16,7 +16,7 @@
 .header__right {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: end;
 }
 
 .header__title {
@@ -33,6 +33,11 @@
     color: #0099f9;
     text-decoration: none;
   }
+}
+
+.app_header > .info {
+  background: transparent;
+  box-shadow: none;
 }
 
 #sidebar {

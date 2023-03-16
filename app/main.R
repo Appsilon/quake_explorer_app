@@ -89,15 +89,19 @@ app_header <- gridPanel(
     class = "header__right",
     CommandBar(items = header_commandbar_list),
   ),
-  info = actionButton("cta_info",
-                      label = "",
-                      icon = icon("circle-info"),
-                      class = "cta-icon", onclick =
-      "window.open('https://github.com/Appsilon/quake_explorer_app', '_blank')"
+  info = IconButton.shinyInput(
+    "cta_info",
+    class = "cta-icon",
+    iconProps = list(iconName = "Info"),
+    href = "https://github.com/Appsilon/quake_explorer_app",
+    target = "_blank"
   ),
-  cta = actionButton("cta_talk", "Let's Talk",
-                     class = "btn-primary btn-cta mobile-toggled",
-                     onclick = "window.open('https://appsilon.com/', '_blank')"
+  cta = PrimaryButton.shinyInput(
+    inputId = "cta_talk",
+    text = "Let's Talk",
+    class = "btn-primary btn-cta mobile-toggled",
+    href = "https://appsilon.com/",
+    target = "_blank"
   ),
   mobile_controls = div(
     # Collapse/Expand functionality for mobile
