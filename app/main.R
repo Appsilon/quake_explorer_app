@@ -169,7 +169,7 @@ server <- function(id) {
     type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
 
     quakes_filtered <- reactive({
-      req(type())
+      validate(need(type(), "Select at least 1 quake type"))
       req(input$mag)
 
       quake_filter_func(quakes_data, type(), input$mag)
