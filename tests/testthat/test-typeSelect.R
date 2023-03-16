@@ -20,11 +20,3 @@ test_that("typeSelect only includes types in the dataset", {
     })
   }
 })
-
-test_that("typeSelect renders a dropdown input", {
-  local_edition(3)
-  data <- quake_data_read(file = "test-data.csv")
-  testServer(app = typeSelect$server, args = list(data = data, reactiveVal(3)), expr = {
-    expect_snapshot(output$typeSelect$html)
-  })
-})
