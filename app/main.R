@@ -19,14 +19,28 @@ box::use(
 # Box import of views
 box::use(
   app / view / mapQuake,
-  app / view / downloadData
+  app / view / downloadData,
+  app / view / typeSelect
 )
+
+
+
+
+# Use breakpoints based on the Appsilon design system
+appsilon_breakpoints <- breakpointSystem(
+  "appsilon-breakpoints",
+  breakpoint("xs", min = 320),
+  breakpoint("s", min = 428),
+  breakpoint("m", min = 728),
+  breakpoint("l", min = 1024),
+  breakpoint("xl", min = 1200)
+)
+
 
 # Data wrangling ----------------------------------------------------------
 quakes_data <- quake_data_read("data/quakes_may_2022.csv")
 
 # R components ------------------------------------------------------------
-
 quake_types <- quake_types_func(quakes_data)
 
 # ===================
@@ -36,17 +50,51 @@ quake_types <- quake_types_func(quakes_data)
 #' @export
 ui <- function(id) {
   ns <- NS(id)
-
   # UI components ---------------------------------------------------------
-  app_header <- div(
-    class = "header",
-    div(
-      class = "header__left",
-      tags$a(
-        href = "https://appsilon.com/",
-        img(src = "static/appsilon-logo.png", style = "width: 150px")
+  ## Header command bar
+  header_commandbar_list <- list(
+    list(
+      key = "zoom_out",
+      text = "Zoom out",
+      iconProps = list(iconName = "FullScreen")
+    ),
+    list(
+      key = "download",
+      text = "Download data",
+      iconProps = list(iconName = "Download")
+    )
+  )
+
+  app_header <- gridPanel(
+    id = "app_header",
+    class = "mobile-collapsed",
+    breakpoint_system = appsilon_breakpoints,
+    areas = list(
+      default = c(
+        "logo . info mobile_controls",
+        "separator separator separator separator",
+        "title title title title",
+        "menu menu menu menu",
+        "cta cta cta cta"
       ),
-      Text(variant = "xLarge", "| Quakes explorer", class = "header__title")
+      l = "logo separator title mobile_controls . menu info cta"
+    ),
+    columns = list(
+      default = "auto 1fr auto auto",
+      l = "auto 1px auto auto 1fr auto auto auto"
+    ),
+    rows = list(
+      default = "auto auto auto auto auto",
+      l = "40px"
+    ),
+    gap = list(
+      default = "0px",
+      l = "16px"
+    ),
+    logo = img(src = "static/appsilon-logo.png", style = "width: 150px"),
+    separator = div(class = "app_header_vertical_separator mobile-toggled"),
+    title = div("Quakes explorer",
+                class = "app_header_title mobile-toggled"
     ),
     div(
       class = "header__right",
@@ -54,8 +102,26 @@ ui <- function(id) {
       CommandBarButton.shinyInput(
         ns("zoom_out"),
         iconProps = list(iconName = "FullScreen"), text = "Zoom out"
-      ),
-      tags$a(href = "https://appsilon.com/#contact", "Let's Talk", class = "header__link"),
+      )
+    ),
+    info = IconButton.shinyInput(
+      "cta_info",
+      class = "cta-icon",
+      iconProps = list(iconName = "Info"),
+      href = "https://github.com/Appsilon/quake_explorer_app",
+      target = "_blank"
+    ),
+    cta = PrimaryButton.shinyInput(
+      inputId = "cta_talk",
+      text = "Let's Talk",
+      class = "btn-primary btn-cta mobile-toggled",
+      href = "https://appsilon.com/",
+      target = "_blank"
+    ),
+    mobile_controls = div(
+      # Collapse/Expand functionality for mobile
+      tags$script("App.headerExpand('{ns}',this.id)",
+                  "App.headerCollapse('{ns}',this.id)")
     )
   )
 
@@ -63,11 +129,7 @@ ui <- function(id) {
     id = "sidebar",
     Separator("Filter quakes"),
     Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
-    Dropdown.shinyInput(
-      ns("type"),
-      value = "earthquake",
-      options = quake_types, label = "Quake type"
-    ),
+    typeSelect$ui(ns("typeSelect")),
     Separator("Top quakes"),
     flexPanel(
       id = "top_quakes_inputs",
@@ -99,7 +161,7 @@ ui <- function(id) {
     template = "grail-left-sidebar",
     gap = "10px",
     rows = list(
-      default = "70px 1fr 30px"
+      default = "auto 1fr 30px"
     ),
     header = app_header,
     sidebar = app_sidebar,
@@ -117,11 +179,13 @@ server <- function(id) {
   moduleServer(id, function(input, output, session) {
     ns <- session$ns
 
+    type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
+
     quakes_filtered <- reactive({
-      req(input$type)
+      req(type())
       req(input$mag)
 
-      quake_filter_func(quakes_data, input$type, input$mag)
+      quake_filter_func(quakes_data, type(), input$mag)
     })
 
     downloadData$server("download", quakes_filtered)
