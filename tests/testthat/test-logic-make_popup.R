@@ -23,6 +23,7 @@ test_that("variables have a value", {
   expect_true(!is.null(place))
   expect_true(!is.null(time))
   expect_true(!is.null(mag))
+  expect_true(!is.null(mag_type))
   expect_true(!is.null(depth))
 })
 # check with rhino::test_r()
