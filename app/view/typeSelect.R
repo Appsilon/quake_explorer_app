@@ -1,7 +1,7 @@
 box::use(
-  shiny[NS, tagList, moduleServer, uiOutput, renderUI, req, reactive],
-  dplyr[filter],
-  shiny.fluent[Dropdown.shinyInput]
+  shiny[NS, tagList, moduleServer, uiOutput, renderUI, req, reactive, tags, checkboxGroupInput,
+        tagAppendAttributes, observe, updateCheckboxGroupInput],
+  dplyr[filter]
 )
 
 box::use(
@@ -12,9 +12,16 @@ box::use(
 #' @export
 ui <- function(id) {
   ns <- NS(id)
-  tagList(
-    uiOutput(ns("typeSelect"))
-  )
+  tags$div(id = "quake-type-select",
+      checkboxGroupInput(ns("quakeTypes"), label = "Quake Type", 
+                         choices = c("Earthquake" = "earthquake", 
+                                     "Explosion" = "explosion", 
+                                     "Quarry Blast" = "quarry blast", 
+                                     "Ice Quake" = "ice quake"),
+                         selected = c("earthquake"), 
+                         inline = FALSE) |>
+        tagAppendAttributes(class = "custom-toggle")
+    )
 }
 
 #' @export
@@ -26,22 +33,19 @@ server <- function(id, data, min_mag) {
 
       filtered_types <- reactive({
         req(min_mag())
-        options <- data |>
+        data |>
           filter(mag >= min_mag()) |>
           quake_types_func()
       })
 
-      # Update selectInput by only allowing choices contained in the dataset
-      output$typeSelect <- renderUI({
-        Dropdown.shinyInput(
-          ns("type"),
-          value = "earthquake",
-          options = filtered_types(), label = "Quake type"
-        )
+      # Update checkboxGroup by only checking choices contained in the dataset
+      observe({
+        updateCheckboxGroupInput(inputId = "quakeTypes",
+                                 selected = filtered_types()$key)
       })
 
       # return the rendered input's value
-      reactive(input$type)
+      reactive(input$quakeTypes)
     }
   )
 }
