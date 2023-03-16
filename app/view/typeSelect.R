@@ -19,7 +19,7 @@ ui <- function(id) {
     id = "quake-types",
     flexPanel(
       checkboxGroupInput(ns("quakeTypes"),
-        label = "Quake Type",
+        label = "Toggle Quake Types",
         choices = c(
           "Earthquake" = "earthquake",
           "Explosion" = "explosion",
@@ -27,7 +27,7 @@ ui <- function(id) {
           "Ice Quake" = "ice quake"
         ),
         selected = c("earthquake"),
-        inline = FALSE
+        inline = TRUE
       ) |>
         tagAppendAttributes(class = "quake-type-toggle")
     )
