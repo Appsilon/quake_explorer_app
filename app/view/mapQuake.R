@@ -27,8 +27,8 @@ ui <- function(id) {
 #' @export
 server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
   map_points_palette <- colorNumeric(
-    palette = colorRamp(c("#33ADFA", "#0049A9", "#00A840", "#F5B400", "#AF0000"), interpolate = "linear"),
-    domain = quakes_data$mag
+    palette = colorRamp(c("#33ADFA", "#0049A9", "#03CF4F", "#F5B400", "#FA7C2E", "#FB4157", "#AF0000"), interpolate = "linear"),
+    domain = c(1,10)
   )
 
   moduleServer(id, function(input, output, session) {
