@@ -181,3 +181,52 @@
     display: flex !important;
   }
 }
+
+.quake-types {
+  .shiny-options-group {
+    display: flex;
+    gap: 1px;
+    flex-wrap: wrap;
+    border-radius: 10px;
+  }
+
+  .label {
+    width: 100%;
+  }
+}
+
+.quake-type-toggle {
+  .checkbox-inline {
+    float: center;
+    margin: 4px;
+    width: 40%;
+    text-align: center;
+
+    span {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      transition: all 0.3s ease;
+      padding: 7px 15px;
+      border: 1px solid #15354a;
+      background: inherit;
+      color: #15354a;
+    }
+
+    input {
+      display: none;
+
+      &:checked {
+        + span {
+          background: #15354a;
+          color: white;
+          border: 1px solid #08273c;
+        }
+      }
+    }
+  }
+}
