@@ -12,7 +12,7 @@ box::use(
 #' @export
 ui <- function(id) {
   ns <- NS(id)
-  tags$div(id = "quake-type-select",
+  tags$div(id = "quake-types",
       checkboxGroupInput(ns("quakeTypes"), label = "Quake Type", 
                          choices = c("Earthquake" = "earthquake", 
                                      "Explosion" = "explosion", 
@@ -20,7 +20,7 @@ ui <- function(id) {
                                      "Ice Quake" = "ice quake"),
                          selected = c("earthquake"), 
                          inline = FALSE) |>
-        tagAppendAttributes(class = "custom-toggle")
+        tagAppendAttributes(class = "quake-type-toggle")
     )
 }
 
