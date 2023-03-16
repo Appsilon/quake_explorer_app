@@ -9,7 +9,7 @@ box::use(
 )
 
 #' @export
-make_popup <- function(place, time, mag, magType, depth) {
+make_popup <- function(place, time, mag, mag_type, depth) {
   glue::glue(
     "
     <style>
@@ -19,7 +19,7 @@ make_popup <- function(place, time, mag, magType, depth) {
     <div class='popup-content'>
       <h3 class = 't-title'>{ str_to_title(place) }</h3>
       <p><b>Time: </b> { time } </p>
-      <p><b>Magnitude: </b> { mag } { magType }</p>
+      <p><b>Magnitude: </b> { mag } { mag_type }</p>
       <p><b>Depth: </b> { depth } Km </p>
       <p><b>TNT Equivalent: </b> ~ {round(magnitude_to_tnt$magnitude_to_tnt(mag))} tons</p>
     </div>
