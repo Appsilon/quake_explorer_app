@@ -1,7 +1,10 @@
 box::use(
-  shiny[NS, tagList, moduleServer, uiOutput, renderUI, req, reactive, tags, checkboxGroupInput,
-        tagAppendAttributes, observe, updateCheckboxGroupInput],
-  dplyr[filter]
+  shiny[
+    NS, tagList, moduleServer, uiOutput, renderUI, req, reactive, tags, checkboxGroupInput,
+    tagAppendAttributes, observe, updateCheckboxGroupInput
+  ],
+  dplyr[filter],
+  imola[flexPanel]
 )
 
 box::use(
@@ -12,16 +15,23 @@ box::use(
 #' @export
 ui <- function(id) {
   ns <- NS(id)
-  tags$div(id = "quake-types",
-      checkboxGroupInput(ns("quakeTypes"), label = "Quake Type", 
-                         choices = c("Earthquake" = "earthquake", 
-                                     "Explosion" = "explosion", 
-                                     "Quarry Blast" = "quarry blast", 
-                                     "Ice Quake" = "ice quake"),
-                         selected = c("earthquake"), 
-                         inline = FALSE) |>
+  tags$div(
+    id = "quake-types",
+    flexPanel(
+      checkboxGroupInput(ns("quakeTypes"),
+        label = "Quake Type",
+        choices = c(
+          "Earthquake" = "earthquake",
+          "Explosion" = "explosion",
+          "Quarry Blast" = "quarry blast",
+          "Ice Quake" = "ice quake"
+        ),
+        selected = c("earthquake"),
+        inline = FALSE
+      ) |>
         tagAppendAttributes(class = "quake-type-toggle")
     )
+  )
 }
 
 #' @export
@@ -40,8 +50,10 @@ server <- function(id, data, min_mag) {
 
       # Update checkboxGroup by only checking choices contained in the dataset
       observe({
-        updateCheckboxGroupInput(inputId = "quakeTypes",
-                                 selected = filtered_types()$key)
+        updateCheckboxGroupInput(
+          inputId = "quakeTypes",
+          selected = filtered_types()$key
+        )
       })
 
       # return the rendered input's value

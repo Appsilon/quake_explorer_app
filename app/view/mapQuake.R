@@ -33,7 +33,6 @@ server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
   moduleServer(id, function(input, output, session) {
     output$map <- renderLeaflet({
       req(quakes_filtered()) # validate map data
-      
       leaflet() |>
         addTiles() |>
         setView(-27.210814, 30.161823, zoom = 2)
