@@ -115,7 +115,7 @@ ui <- function(id) {
   app_sidebar <- div(
     id = "sidebar",
     Separator("Filter quakes"),
-    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
+    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimum magnitude"),
     typeSelect$ui(ns("typeSelect")),
     Separator("Top quakes"),
     flexPanel(
