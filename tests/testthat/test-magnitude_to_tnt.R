@@ -9,5 +9,6 @@ test_that("magnitude_to_tnt returns correct tnt equivalent", {
 })
 
 test_that("magnitude_to_tnt returns decimal when tnt equilavent < 0", {
+  options(scipen = 999)
   expect_match(as.character(magnitude_to_tnt(1)), "\\d\\.\\d")
 })
