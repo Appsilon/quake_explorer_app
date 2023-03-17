@@ -215,6 +215,11 @@
       border: 1px solid #15354a;
       background: inherit;
       color: #15354a;
+
+      &:hover {
+        background: #9bafbd !important;
+        color: #1d4b6b !important;
+      }
     }
 
     input {
@@ -225,6 +230,11 @@
           background: #15354a;
           color: white;
           border: 1px solid #08273c;
+
+          &:hover {
+            color: white !important;
+            background: #1d4b6b !important;
+          }
         }
       }
     }
