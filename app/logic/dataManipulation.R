@@ -11,7 +11,7 @@ box::use(
 #' @export
 quake_data_read <- function(file) {
   read_csv(file) |>
-    mutate(popup = make_popup(place, time, mag, depth))
+    mutate(popup = make_popup(place, time, mag, magType, depth))
 }
 
 #' @export
