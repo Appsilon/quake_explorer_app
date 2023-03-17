@@ -4,5 +4,5 @@ box::use(
 
 test_that("magnitude_palette returns a function", {
   palette <- magnitude_palette()
-  expect_true(inherits(palette,"function"))
+  expect_true(inherits(palette, "function"))
 })
