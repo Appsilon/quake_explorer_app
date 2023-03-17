@@ -25,7 +25,7 @@ quake_types_func <- function(data) {
 #' @export
 quake_filter_func <- function(data, type, mag) {
   data |>
-    filter(type == !!type, mag >= !!mag)
+    filter(type %in% !!type, mag >= !!mag)
 }
 
 #' @export
