@@ -19,7 +19,7 @@ ui <- function(id) {
     id = "quake-types",
     flexPanel(
       checkboxGroupInput(ns("quakeTypes"),
-        label = "Toggle Quake Types",
+        label = "Quake Types",
         choices = c(
           "Earthquake" = "earthquake",
           "Explosion" = "explosion",
