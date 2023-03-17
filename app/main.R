@@ -115,7 +115,7 @@ ui <- function(id) {
   app_sidebar <- div(
     id = "sidebar",
     Separator("Filter quakes"),
-    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimun magnitude"),
+    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimum magnitude"),
     typeSelect$ui(ns("typeSelect")),
     Separator("Top quakes"),
     flexPanel(
@@ -169,7 +169,7 @@ server <- function(id) {
     type <- typeSelect$server("typeSelect", quakes_data, reactive(input$mag))
 
     quakes_filtered <- reactive({
-      req(type())
+      validate(need(type(), "Select at least 1 quake type"))
       req(input$mag)
 
       quake_filter_func(quakes_data, type(), input$mag)

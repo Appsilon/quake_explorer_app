@@ -61,7 +61,7 @@ quake_data_read_realtime <- function(file) {
 #' @export
 quake_data_read <- function(file) {
   read_csv(file) |>
-    mutate(popup = make_popup(place, time, mag, depth))
+    mutate(popup = make_popup(place, time, mag, magType, depth))
 }
 
 #' @export
@@ -75,7 +75,7 @@ quake_types_func <- function(data) {
 #' @export
 quake_filter_func <- function(data, type, mag) {
   data |>
-    filter(type == !!type, mag >= !!mag)
+    filter(type %in% !!type, mag >= !!mag)
 }
 
 #' @export
