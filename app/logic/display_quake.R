@@ -14,7 +14,7 @@ display_quake <- function(mag, place, time, depth, id, ns) {
     class = "quake-container",
     id = id,
     onclick = glue("App.sentQuakeId('{ns}',this.id)"),
-    h3(mag,style = paste("color",palette(mag),sep = ":")),
+    h3(mag, style = paste("color", palette(mag), sep = ":")),
     div(
       h3(str_to_title(place)),
       div(
