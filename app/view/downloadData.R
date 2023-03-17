@@ -6,6 +6,14 @@ box::use(
   dplyr[select, any_of]
 )
 
+#' Create an ui for a CommandBarButton.shinyInput that triggers an invisible downloadButton
+#'
+#' This function creates two buttons, CommandBarButton.shinyInput and downloadButton. However only
+#' CommandBarButton.shinyInput is displayed to the user.
+#'
+#' @param id The module id
+#' @return tagList
+#'
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -22,6 +30,16 @@ ui <- function(id) {
   )
 }
 
+#' Server function for triggering download from CommandBarButton.shinyInput
+#'
+#' This function handles triggering downloadButton when CommandBarButton.shinyInput button pressed.
+#' Normally CommandBarButton.shinyInput does not have any download functionality, to achieve it
+#' we click the invisible downloadButton using `shinyjs::runjs`
+#'
+#' @param id The module id
+#' @param data Data that will be downloaded when the button pressed
+#' @return
+#'
 #' @export
 server <- function(id, data) {
   moduleServer(
