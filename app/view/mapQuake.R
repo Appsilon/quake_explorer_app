@@ -9,12 +9,12 @@ box::use(
     quake_types_func, quake_filter_func,
     top_quakes_func, selected_quake_func
   ],
+  app / logic / magnitude_palette[magnitude_palette],
   leaflet[
     renderLeaflet, leaflet, addTiles, setView,
     leafletProxy, clearControls, clearMarkers, addCircleMarkers,
-    addLegend, flyTo, colorNumeric, leafletOutput
-  ],
-  grDevices[colorRamp]
+    addLegend, flyTo, leafletOutput
+  ]
 )
 
 #' @export
@@ -26,14 +26,7 @@ ui <- function(id) {
 
 #' @export
 server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
-  map_points_palette <- colorNumeric(
-    palette = colorRamp(
-      c("#0049A9", "#33ADFA", "#02C9B1", "#F5B400", "#FA7C2E", "#FB4157", "#AF0000"),
-      interpolate = "linear"
-    ),
-    domain = c(1, 10)
-  )
-
+  map_points_palette <- magnitude_palette()
   moduleServer(id, function(input, output, session) {
     output$map <- renderLeaflet({
       req(quakes_filtered()) # validate map data
@@ -56,7 +49,7 @@ server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
           "bottomright",
           title = "Magnitude",
           pal = map_points_palette,
-          values = c(1, 3, 5, 7)
+          values = c(1, max(quakes_data$mag))
         )
     })
 
