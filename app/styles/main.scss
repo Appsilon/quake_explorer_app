@@ -50,6 +50,13 @@
   padding: 5px;
   margin-left: 5px;
   border-radius: 10px;
+
+  div {
+    &[role="separator"] {
+      font-size: large;
+      margin-bottom: 10px;
+    }
+  }
 }
 
 #top_quakes_inputs {
@@ -192,6 +199,7 @@
 
   .label {
     width: 100%;
+    float: center;
   }
 }
 
@@ -201,6 +209,9 @@
     margin: 4px;
     width: 40%;
     text-align: center;
+    padding: 0;
+    justify-content: center;
+    justify-items: center;
 
     span {
       width: 100%;
