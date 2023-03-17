@@ -123,8 +123,7 @@ ui <- function(id) {
       basis = c("85%", "10%"),
       wrap = "nowrap",
       align_content = "space-between",
-      SpinButton.shinyInput(inputId = ns("n_quakes"), label = "Top:", value = 5, min = 1, max = 15),
-      IconButton.shinyInput(ns("zoom_out"), iconProps = list("iconName" = "FullScreen"))
+      SpinButton.shinyInput(inputId = ns("n_quakes"), label = "Top:", value = 5, min = 1, max = 15)
     ),
     uiOutput(ns("top_quakes"))
   )
