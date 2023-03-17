@@ -10,7 +10,7 @@ box::use(
   bslib[bs_theme, font_google],
   leaflet[...],
   app / logic / dataManipulation[
-    quake_data_read,
+    get_data, quake_data_read_realtime, quake_data_read,
     quake_types_func, quake_filter_func,
     top_quakes_func, selected_quake_func
   ]
@@ -38,7 +38,7 @@ appsilon_breakpoints <- breakpointSystem(
 
 
 # Data wrangling ----------------------------------------------------------
-quakes_data <- quake_data_read("data/quakes_may_2022.csv")
+quakes_data <- quake_data_read_realtime("data/quakes_last30Days.csv")
 
 # R components ------------------------------------------------------------
 quake_types <- quake_types_func(quakes_data)
