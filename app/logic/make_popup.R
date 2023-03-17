@@ -4,8 +4,12 @@ box::use(
   stringr[...]
 )
 
+box::use(
+  app / logic / magnitude_to_tnt[magnitude_to_tnt]
+)
+
 #' @export
-make_popup <- function(place, time, mag, depth) {
+make_popup <- function(place, time, mag, mag_type, depth) {
   glue::glue(
     "
     <style>
@@ -15,8 +19,9 @@ make_popup <- function(place, time, mag, depth) {
     <div class='popup-content'>
       <h3 class = 't-title'>{ str_to_title(place) }</h3>
       <p><b>Time: </b> { time } </p>
-      <p><b>Magnitude: </b> { mag } </p>
+      <p><b>Magnitude: </b> { mag } { mag_type }</p>
       <p><b>Depth: </b> { depth } Km </p>
+      <p><b>TNT Equivalent: </b> ~ {magnitude_to_tnt(mag)} tons</p>
     </div>
     "
   )
