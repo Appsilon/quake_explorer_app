@@ -18,7 +18,7 @@ box::use(
 )
 
 #' Create a leafletOutput
-#' 
+#'
 #' This function creates a leafletOutput with height `100%`
 #'
 #' @param id The module id
@@ -31,9 +31,9 @@ ui <- function(id) {
 }
 
 #' Server function for handling map actions and aesthetics
-#' 
+#'
 #' This function adds filtered earthquakes on the map as colored markers and zooms out and in according
-#' to user input. 
+#' to user input.
 #'
 #' @param id The module id
 #' @param quakes_data Raw data without any filters applied
