@@ -1,3 +1,11 @@
+#' Create a color palette for displaying quake magnitudes
+#' This function returns a colorNumeric function that returns a color based on the given magnitude
+#'
+#' @return colorNumeric function
+#'
+#' @examples
+#' palette <- magnitude_palette()
+#' palette(5)
 box::use(
   leaflet[colorNumeric],
   grDevices[colorRamp]
