@@ -17,6 +17,12 @@ box::use(
   ]
 )
 
+#' Create a leafletOutput
+#' 
+#' This function creates a leafletOutput with height `100%`
+#'
+#' @param id The module id
+#' @return leafletOutput
 #' @export
 ui <- function(id) {
   ns <- NS(id)
@@ -24,6 +30,17 @@ ui <- function(id) {
   leafletOutput(ns("map"), height = "100%")
 }
 
+#' Server function for handling map actions and aesthetics
+#' 
+#' This function adds filtered earthquakes on the map as colored markers and zooms out and in according
+#' to user input. 
+#'
+#' @param id The module id
+#' @param quakes_data Raw data without any filters applied
+#' @param quakes_filtered Filtered data according to user input
+#' @param selected_quake List of lat and lng for the selected quake
+#' @param zoom_out Reactive variable for observing whenever zoom out button is pressed
+#' @return
 #' @export
 server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
   map_points_palette <- magnitude_palette()
