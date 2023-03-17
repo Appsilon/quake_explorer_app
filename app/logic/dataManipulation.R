@@ -55,7 +55,7 @@ get_data <- function(file_path) {
 #' @export
 quake_data_read_realtime <- function(file) {
   get_data(file) |>
-    mutate(popup = make_popup(place, time, mag, depth))
+    mutate(popup = make_popup(place, time, mag, magType, depth))
 }
 
 #' @export
