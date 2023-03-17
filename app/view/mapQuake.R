@@ -32,8 +32,8 @@ ui <- function(id) {
 
 #' Server function for handling map actions and aesthetics
 #'
-#' This function adds filtered earthquakes on the map as colored markers and zooms out and in according
-#' to user input.
+#' This function adds filtered earthquakes on the map as colored markers and zooms out and in
+#' according to user input.
 #'
 #' @param id The module id
 #' @param quakes_data Raw data without any filters applied
