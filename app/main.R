@@ -91,6 +91,12 @@ ui <- function(id) {
         iconProps = list(iconName = "FullScreen"), text = "Zoom out"
       )
     ),
+    Toggle(inputId = "btn_tog", FALSE, onText = icon("moon"),
+           offText = icon("sun"), inlineLabel =  TRUE, onChanged =
+             JS("(checked) => checked ? 
+                document.body.classList.toggle('dark-theme'): 
+                document.body.classList.toggle('dark-theme')")
+           ),
     info = IconButton.shinyInput(
       "cta_info",
       class = "cta-icon",

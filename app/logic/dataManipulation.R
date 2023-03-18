@@ -52,18 +52,35 @@ get_data <- function(file_path) {
   }
 }
 
+
+#' Function for reading realtime data into a dataframe
+#' and appending to it a column named popup
+#'
+#' @param file File to be read
+#' @return table with additional popup column
 #' @export
 quake_data_read_realtime <- function(file) {
   get_data(file) |>
     mutate(popup = make_popup(place, time, mag, magType, depth))
 }
 
+
+#' Function for reading csv file into a dataframe
+#' and appending to it a column named popup
+#'
+#' @param file File to be read
+#' @return table with additional popup column
 #' @export
 quake_data_read <- function(file) {
   read_csv(file) |>
     mutate(popup = make_popup(place, time, mag, magType, depth))
 }
 
+#' Function for obtaining a table with
+#' unique types of earthquake
+#'
+#' @param data data table
+#' @return table with unique types of earthquakes
 #' @export
 quake_types_func <- function(data) {
   data |>
@@ -72,12 +89,26 @@ quake_types_func <- function(data) {
     rename(key = type)
 }
 
+# 'Function for filtering data according to the
+# 'type of earthquake and minimum magnitude
+#'
+#' @param data data table
+#' @param type Earthquake type
+#' @param mag Earthquake magnitude
+#' @return filtered table
 #' @export
 quake_filter_func <- function(data, type, mag) {
   data |>
     filter(type %in% !!type, mag >= !!mag)
 }
 
+#' Function to generate a table of top n quakes
+#' arranged from the one with highest magnitude
+#'
+#' @param data data table
+#' @param n_quakes number of quakes to show
+#' @param ns namespace
+#' @return arranged table of top n_quakes
 #' @export
 top_quakes_func <- function(data, n_quakes, ns) {
   data |>
@@ -88,6 +119,13 @@ top_quakes_func <- function(data, n_quakes, ns) {
     pmap(display_quake)
 }
 
+#' Function to filter specific earthquake
+#' based on its' quake id and obtain its'
+#' location through latitude and longitude
+#'
+#' @param data data table
+#' @param quake_id Earthquake id
+#' @return list with 2 values (latitude and longitude)
 #' @export
 selected_quake_func <- function(data, quake_id) {
   quake_index <- which(data[["id"]] == quake_id)
