@@ -193,6 +193,12 @@ server <- function(id) {
       top_quakes_func(quakes_filtered(), input$n_quakes, ns)
     })
 
-    mapQuake$server("map", quakes_data, quakes_filtered, selected_quake, reactive(input$zoom_out), reactive(input$btn_tog))
+    mapQuake$server("map",
+      quakes_data,
+      quakes_filtered,
+      selected_quake,
+      reactive(input$zoom_out),
+      reactive(input$btn_tog)
+    )
   })
 }
