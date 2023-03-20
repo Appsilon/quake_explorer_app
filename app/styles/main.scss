@@ -207,7 +207,7 @@
   .checkbox-inline {
     float: center;
     margin: 4px;
-    width: 45%;
+    width: calc(50% - 10px);
     text-align: center;
     padding: 0;
     justify-content: center;
