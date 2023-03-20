@@ -1,8 +1,11 @@
 box::use(
   shiny[...],
   glue[glue],
-  stringr[str_to_title]
+  stringr[str_to_title],
+  app / logic / magnitude_palette[magnitude_palette]
 )
+
+palette <- magnitude_palette()
 
 #' @export
 display_quake <- function(mag, place, time, depth, id, ns) {
@@ -11,12 +14,12 @@ display_quake <- function(mag, place, time, depth, id, ns) {
     class = "quake-container",
     id = id,
     onclick = glue("App.sentQuakeId('{ns}',this.id)"),
-    h3(mag),
+    h3(mag, style = paste("color", palette(mag), sep = ":")),
     div(
       h3(str_to_title(place)),
       div(
         class = "quake-metadata",
-        p(time),
+        p(format(as.POSIXct(time, tz = "UTC"), tz = "America/New_York", "%Y-%m-%d %H:%M:%S")),
         p(paste(mag, "km"))
       )
     )
