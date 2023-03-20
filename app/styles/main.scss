@@ -253,10 +253,31 @@
   }
 }
 
+.app_header .ms-Toggle {
+  margin: 0;
+
+  button {
+    border-color: rgb(50 49 48);
+    height: auto;
+  }
+
+  .ms-Toggle-thumb {
+    background-color: rgb(24 122 212);
+  }
+
+  label {
+    color: #187ad4;
+  }
+}
+
 /* Dark Mode styles */
 body.dark-theme {
   color: #fff;
   background: #121212;
+
+  .leaflet.html-widget {
+    background: #121212;
+  }
 
   .cta-icon {
     background: transparent !important;
@@ -271,6 +292,14 @@ body.dark-theme {
 
   .app_header_title {
     color: #fff;
+  }
+
+  .app_header .ms-Toggle button {
+    border: 1px solid white;
+
+    .ms-Toggle-thumb {
+      background-color: white;
+    }
   }
 
   .app_header_vertical_separator {
@@ -288,9 +317,9 @@ body.dark-theme {
   .quake-type-toggle {
     .checkbox-inline {
       span {
-        background: #ed79f9;
-        color: #000;
-        border: 1px solid #ed79f9;
+        background: transparent;
+        color: white;
+        border: 1px solid white;
 
         &:hover {
           background: #0dcaf0 !important;
@@ -301,9 +330,9 @@ body.dark-theme {
       input {
         &:checked {
           + span {
-            background: #198754;
+            background: #337ab7;
             color: #fff;
-            border: 1px solid #198754;
+            border: 1px solid white;
 
             &:hover {
               color: #000 !important;
@@ -322,7 +351,7 @@ body.dark-theme {
     }
 
     button:hover {
-      background: #0dcaf0;
+      background: #337ab7;
       color: white;
     }
 
@@ -358,5 +387,19 @@ body.dark-theme {
 
   i {
     color: #fff;
+  }
+
+  #sidebar div[role=separator] {
+    color: white;
+    background: #121212;
+  }
+
+  .ms-spinButton-input {
+    background: transparent;
+    color: white;
+  }
+
+  .leaflet-tile-pane {
+    filter: invert(1);
   }
 }
