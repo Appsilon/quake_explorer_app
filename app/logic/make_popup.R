@@ -10,6 +10,7 @@ box::use(
 
 #' @export
 make_popup <- function(place, time, mag, mag_type, depth) {
+  time <- format(as.POSIXct(time, tz = "UTC"), tz = "America/New_York", "%Y-%m-%d %H:%M:%S")
   glue::glue(
     "
     <style>
