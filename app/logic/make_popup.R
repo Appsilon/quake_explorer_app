@@ -10,7 +10,7 @@ box::use(
 
 #' @export
 make_popup <- function(place, time, mag, mag_type, depth) {
-  time <- as.POSIXct(time, format = "%Y-%m-%dT%H:%M")
+  time <- format(as.POSIXct(time, tz = "UTC"), tz = "America/New_York", "%Y-%m-%d %H:%M:%S")
   glue::glue(
     "
     <style>
@@ -19,8 +19,7 @@ make_popup <- function(place, time, mag, mag_type, depth) {
     </style>
     <div class='popup-content'>
       <h3 class = 't-title'>{ str_to_title(place) }</h3>
-      <p><b>Date: </b> { format(time, format = '%Y-%m-%d') } </p>
-      <p><b>Time: </b> { format(time, format = '%H:%M') } </p>
+      <p><b>Time: </b> { time } </p>
       <p><b>Magnitude: </b> { mag } { mag_type }</p>
       <p><b>Depth: </b> { depth } Km </p>
       <p><b>TNT Equivalent: </b> ~ {magnitude_to_tnt(mag)} tons</p>

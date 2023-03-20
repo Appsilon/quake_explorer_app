@@ -19,7 +19,7 @@ display_quake <- function(mag, place, time, depth, id, ns) {
       h3(str_to_title(place)),
       div(
         class = "quake-metadata",
-        p(time),
+        p(format(as.POSIXct(time, tz = "UTC"), tz = "America/New_York", "%Y-%m-%d %H:%M:%S")),
         p(paste(mag, "km"))
       )
     )
