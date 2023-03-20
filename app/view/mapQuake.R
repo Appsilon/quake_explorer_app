@@ -11,7 +11,8 @@ box::use(
   ],
   app / logic / magnitude_palette[magnitude_palette],
   leaflet[
-    renderLeaflet, leaflet, addTiles, setView,
+    renderLeaflet, leaflet, addTiles, setView, addProviderTiles, providers,
+    providerTileOptions,
     leafletProxy, clearControls, clearMarkers, addCircleMarkers,
     addLegend, flyTo, leafletOutput
   ]
@@ -42,7 +43,7 @@ ui <- function(id) {
 #' @param zoom_out Reactive variable for observing whenever zoom out button is pressed
 #' @return
 #' @export
-server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
+server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out, dark_mode) {
   map_points_palette <- magnitude_palette()
   moduleServer(id, function(input, output, session) {
     output$map <- renderLeaflet({
@@ -68,6 +69,18 @@ server <- function(id, quakes_data, quakes_filtered, selected_quake, zoom_out) {
           pal = map_points_palette,
           values = c(1, max(quakes_data$mag))
         )
+    })
+
+    observeEvent(dark_mode(), {
+      if (dark_mode()) {
+        leafletProxy("map") |>
+          addProviderTiles(providers$Stamen.TonerLite)
+      }
+
+      if (!dark_mode()) {
+        leafletProxy("map") |>
+          addProviderTiles(providers$OpenStreetMap.Mapnik)
+      }
     })
 
     observe({

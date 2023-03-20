@@ -89,7 +89,13 @@ ui <- function(id) {
       CommandBarButton.shinyInput(
         ns("zoom_out"),
         iconProps = list(iconName = "FullScreen"), text = "Zoom out"
-      )
+      ),
+      Toggle.shinyInput(inputId = ns("btn_tog"), FALSE, onText = icon("moon"),
+        offText = icon("sun"), inlineLabel =  TRUE, onChanged =
+          JS("(checked) => checked ?
+            document.body.classList.toggle('dark-theme'):
+            document.body.classList.toggle('dark-theme')")
+        )
     ),
     info = IconButton.shinyInput(
       "cta_info",
@@ -187,6 +193,12 @@ server <- function(id) {
       top_quakes_func(quakes_filtered(), input$n_quakes, ns)
     })
 
-    mapQuake$server("map", quakes_data, quakes_filtered, selected_quake, reactive(input$zoom_out))
+    mapQuake$server("map",
+      quakes_data,
+      quakes_filtered,
+      selected_quake,
+      reactive(input$zoom_out),
+      reactive(input$btn_tog)
+    )
   })
 }

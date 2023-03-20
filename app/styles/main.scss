@@ -1,3 +1,4 @@
+/* stylelint-disable no-descending-specificity */
 @import url('https://fonts.googleapis.com/css2?family=Maven+Pro:wght@500;600;700&display=swap');
 
 .header {
@@ -249,5 +250,156 @@
         }
       }
     }
+  }
+}
+
+.app_header .ms-Toggle {
+  margin: 0;
+
+  button {
+    border-color: rgb(50 49 48);
+    height: auto;
+  }
+
+  .ms-Toggle-thumb {
+    background-color: rgb(24 122 212);
+  }
+
+  label {
+    color: #187ad4;
+  }
+}
+
+/* Dark Mode styles */
+body.dark-theme {
+  color: #fff;
+  background: #121212;
+
+  .leaflet.html-widget {
+    background: #121212;
+  }
+
+  .cta-icon {
+    background: transparent !important;
+    border: none;
+    color: #fff !important;
+  }
+
+  .cta-icon:hover span {
+    background: #0dcaf0;
+    color: white;
+  }
+
+  .app_header_title {
+    color: #fff;
+  }
+
+  .app_header .ms-Toggle button {
+    border: 1px solid white;
+
+    .ms-Toggle-thumb {
+      background-color: white;
+    }
+  }
+
+  .app_header_vertical_separator {
+    background: #fff;
+  }
+
+  .quake-container {
+    &:hover {
+      background-color: #fff;
+      color: #000;
+      cursor: pointer;
+    }
+  }
+
+  .quake-type-toggle {
+    .checkbox-inline {
+      span {
+        background: transparent;
+        color: white;
+        border: 1px solid white;
+
+        &:hover {
+          background: #0dcaf0 !important;
+          color: #000 !important;
+        }
+      }
+
+      input {
+        &:checked {
+          + span {
+            background: #337ab7;
+            color: #fff;
+            border: 1px solid white;
+
+            &:hover {
+              color: #000 !important;
+              background: #ffc107 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #app_header {
+    button {
+      background: #000;
+      color: white;
+    }
+
+    button:hover {
+      background: #337ab7;
+      color: white;
+    }
+
+    #Toggle3 {
+      background: #337ab7;
+    }
+  }
+
+  #footer {
+    span {
+      color: white;
+    }
+  }
+
+  #sidebar {
+    label {
+      color: white;
+    }
+
+    .content-103 {
+      background: #000;
+      color: #fff;
+    }
+  }
+
+  .shiny-output-error {
+    color: #fff;
+  }
+
+  .activeSection-80 {
+    background: #198754;
+  }
+
+  i {
+    color: #fff;
+  }
+
+  #sidebar div[role=separator] {
+    color: white;
+    background: #121212;
+  }
+
+  .ms-spinButton-input {
+    background: transparent;
+    color: white;
+  }
+
+  .leaflet-tile-pane {
+    filter: invert(1);
   }
 }
