@@ -13,7 +13,8 @@ box::use(
     get_data, quake_data_read_realtime, quake_data_read,
     quake_types_func, quake_filter_func,
     top_quakes_func, selected_quake_func
-  ]
+  ],
+  here[here]
 )
 
 # Box import of views
@@ -64,7 +65,7 @@ ui <- function(id) {
         "menu menu menu menu",
         "cta cta cta cta"
       ),
-      l = "logo separator title mobile_controls . menu info cta"
+      l = "logo separator title mobile_controls . info cta"
     ),
     columns = list(
       default = "auto 1fr auto auto",
@@ -78,11 +79,9 @@ ui <- function(id) {
       default = "0px",
       l = "16px"
     ),
-    logo = img(src = "static/appsilon-logo.png", style = "width: 150px"),
+    logo = img(src = "static/appsilon-logo.png", id = ns("logo")),
     separator = div(class = "app_header_vertical_separator mobile-toggled"),
-    title = div("Quakes explorer",
-                class = "app_header_title mobile-toggled"
-    ),
+    title = div("Quakes explorer", class = "app_header_title mobile-toggled"),
     div(
       class = "header__right",
       downloadData$ui(ns("download")),
@@ -90,11 +89,12 @@ ui <- function(id) {
         ns("zoom_out"),
         iconProps = list(iconName = "FullScreen"), text = "Zoom out"
       ),
-      Toggle.shinyInput(inputId = ns("btn_tog"), FALSE, onText = icon("moon"),
-        offText = icon("sun"), inlineLabel =  TRUE, onChanged =
-          JS("(checked) => checked ?
-            document.body.classList.toggle('dark-theme'):
-            document.body.classList.toggle('dark-theme')")
+      Toggle.shinyInput(
+        inputId = ns("btn_tog"),
+        FALSE,
+        onText = icon("moon"),
+        offText = icon("sun"),
+        inlineLabel =  TRUE
         )
     ),
     info = IconButton.shinyInput(
@@ -112,24 +112,44 @@ ui <- function(id) {
       target = "_blank"
     ),
     mobile_controls = div(
-      # Collapse/Expand functionality for mobile
-      tags$script("App.headerExpand('{ns}',this.id)",
-                  "App.headerCollapse('{ns}',this.id)")
+      icon(
+        "bars",
+        class = "header_control header_expand cta-icon",
+        onclick = "App.headerExpand();"
+      ),
+      icon(
+        "times",
+        class = "header_control header_collapse cta-icon",
+        onclick = "App.headerCollapse();"
+      )
     )
   )
 
+
   app_sidebar <- div(
     id = "sidebar",
-    Separator("Filter quakes"),
-    Slider.shinyInput(ns("mag"), value = 4, min = 1, max = 6, label = "Minimum magnitude"),
+    h5("Filter quakes", class = "separator_fields"),
+    Slider.shinyInput(
+      ns("mag"),
+      value = 4,
+      min = 1,
+      max = 6,
+      label = "Minimum magnitude"
+    ),
     typeSelect$ui(ns("typeSelect")),
-    Separator("Top quakes"),
+    h5("Top quakes", class = "separator_fields"),
     flexPanel(
       id = "top_quakes_inputs",
       basis = c("85%", "10%"),
       wrap = "nowrap",
       align_content = "space-between",
-      SpinButton.shinyInput(inputId = ns("n_quakes"), label = "Top:", value = 5, min = 1, max = 15)
+      SpinButton.shinyInput(
+        inputId = ns("n_quakes"),
+        label = "Top:",
+        value = 5,
+        min = 1,
+        max = 15
+      )
     ),
     uiOutput(ns("top_quakes"))
   )
@@ -143,13 +163,33 @@ ui <- function(id) {
     id = "footer",
     justify_content = "space-between",
     gap = "20px",
-    Text(variant = "medium", "Built with ❤ by Appsilon", block = TRUE),
-    Text(variant = "medium", nowrap = FALSE, "Data source: U.S. Geological Survey"),
-    Text(variant = "medium", nowrap = FALSE, "All rights reserved.")
+    Text(
+      variant = "medium",
+      "Built with ❤ by Appsilon",
+      id = "left_footer_text"
+      ),
+    Text(
+      variant = "medium",
+      nowrap = FALSE,
+      "Data source: U.S. Geological Survey", id = "center_footer_text"
+      ),
+    Text(
+      variant = "medium",
+      nowrap = FALSE,
+      "All rights reserved.",
+      id = "right_footer_text"
+      )
   )
 
   gridPage(
-    tags$head(tags$link(rel = "stylesheet", href = "quakes_style.css")),
+    tags$head(
+      tags$script(
+        src = "https://www.googletagmanager.com/gtag/js?id=G-FQQZL5V93G",
+        async = ""),
+      includeScript(
+        path = here("app/static/js/gtag.js")
+      )
+    ),
     template = "grail-left-sidebar",
     gap = "10px",
     rows = list(
