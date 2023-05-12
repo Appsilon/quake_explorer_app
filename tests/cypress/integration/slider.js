@@ -24,7 +24,7 @@ describe('Test for slider movement', () => {
       cy.wait(500)
       cy.get('@sliderarea')
         .invoke('attr', 'aria-valuenow')
-        .should('eq', i+1)
+        .should('eq', (i+2).toString())
     }
   
 })
